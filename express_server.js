@@ -1,8 +1,10 @@
 // Setup
 const express = require('express');
+const router = express.Router();
 const morgan = require('morgan');
 const app = express();
 const PORT = 8080;
+app.set('view engine', 'ejs');
 
 // Middlewware
 app.use(express.urlencoded({ extended: true }));
