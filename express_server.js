@@ -10,15 +10,11 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
-const urlDatabase = {
-  b2xVn2: "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
-};
+// Routes
+const urlsRouter = require('./routes/urls');
+app.use('/', urlsRouter);
 
-app.get('/', (req, res) => {
-  res.send('Hello!');
-});
-
+// Starting the server
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
