@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { generateRandomString } = require('../helpers');
 
 // Mock Database
 const urlDatabase = {
@@ -28,5 +29,14 @@ router.get('/urls/:id', (req, res) => {
   const templateVars = { id: req.params.id, longURL: urlDatabase[req.params.id]};
   res.render('urls_show', templateVars);
 });
+
+// POST /urls
+router.post('/urls', (req, res) => {
+  const longURL = req.body.longURL;
+  const id = generateRandomString();
+  urlDatabase[id] = longURL;
+  res.redirect(`urls/${id}`);
+});
+
 
 module.exports = router;
