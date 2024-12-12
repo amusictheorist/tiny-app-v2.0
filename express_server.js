@@ -16,8 +16,10 @@ app.use(cookieParser());
 // Routes
 const urlsRouter = require('./routes/urls');
 const login = require('./routes/login');
+const logout = require('./routes/logout');
 app.use('/', urlsRouter);
 app.use('/login', login);
+app.use('/logout', logout);
 
 // Starting the server
 app.listen(PORT, () => {
