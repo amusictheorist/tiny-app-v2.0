@@ -14,7 +14,7 @@
       integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
       crossorigin="anonymous"
     />
-    
+
     <title>TinyApp</title>
   </head>
   <body>
@@ -33,11 +33,22 @@
             <tr>
               <td><%= id %></td>
               <td><%= urls[id] %></td>
+              <td>
+                <a href="/urls/<%= id %>">
+                  <button>Edit</button>
+                </a>
+              </td>
+              <td>
+                <form method="POST" action="/urls/<%= id %>/delete">
+                  <button type="submit">Delete</button>
+                </form>
+              </td>
             </tr>
           <% } %>
         </tbody>
       </table>
     </main>
+
     <!-- Bootstrap JS -->
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

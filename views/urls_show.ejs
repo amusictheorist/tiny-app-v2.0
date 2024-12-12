@@ -21,14 +21,22 @@
     <%- include('partials/_header') %>
     <div class="card text-center">
       <div class="card-header"></div>
+      <h1>Edit URL</h1>
       <div class="card-body">
         <h5 class="card-title">TinyURL for: <%= longURL %></h5>
         <p class="card-text">
           Short URL ID: <a href="/u/<%= id %>"><%= id %></a>
         </p>
       </div>
-      <div class="card-footer text-muted"></div>
+      <div class="card-footer text-muted">
+        <form action="'/urls/<%= id %>">
+          <label>New URL:</label>
+          <input name="longURL">
+          <button type="submit">Submit</button>
+        </form>
+      </div>
     </div>
+    
     <!-- Bootstrap JS -->
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

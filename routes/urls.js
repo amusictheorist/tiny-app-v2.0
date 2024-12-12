@@ -48,5 +48,12 @@ router.get('/u/:id', (req, res) => {
   res.redirect(longURL);  
 });
 
+// POST /urls/:id/delete
+router.post('/urls/:id/delete', (req, res) => {
+  const id = req.params.id;
+  delete urlDatabase[id];
+  res.redirect('/urls');
+});
+
 
 module.exports = router;
