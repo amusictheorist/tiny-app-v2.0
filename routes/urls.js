@@ -38,5 +38,15 @@ router.post('/urls', (req, res) => {
   res.redirect(`urls/${id}`);
 });
 
+// GET /u/:id
+router.get('/u/:id', (req, res) => {
+  const id = req.params.id;
+  const longURL = urlDatabase[id];
+  if (!longURL) {
+    return res.status(404).send('URL not found');
+  }
+  res.redirect(longURL);  
+});
+
 
 module.exports = router;
