@@ -10,23 +10,30 @@ const urlDatabase = {
 
 // Route for home
 router.get('/', (req, res) => {
-  res.send('Hello!');
+  res.redirect('/urls');
 });
 
 // GET /urls
 router.get('/urls', (req, res) => {
-  const templateVars = { urls: urlDatabase };
+  const templateVars = {
+    username: req.cookies['username'],
+    urls: urlDatabase };
   res.render('urls_index', templateVars);
 });
 
 // GET /urls/new
 router.get('/urls/new', (req, res) => {
-  res.render('urls_new');
+  const username = req.cookies.username;
+  res.render('urls_new', { username });
 });
 
 // GET /urls/:id
 router.get('/urls/:id', (req, res) => {
-  const templateVars = { id: req.params.id, longURL: urlDatabase[req.params.id]};
+  const templateVars = {
+    username: req.cookies['username'],
+    id: req.params.id,
+    longURL: urlDatabase[req.params.id]
+  };
   res.render('urls_show', templateVars);
 });
 
