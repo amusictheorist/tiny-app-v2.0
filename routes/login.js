@@ -12,13 +12,13 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   const { email, password } = req.body;
   const user = findUserByEmail(email, users);
-  const userId = user.id;
-
+  
   if (user && user.password === password) {
+    req.session.userId = user.id;
     return res.redirect('/urls');
   }
 
-  return res.status(401).render('login', { error: 'Invalid email or password' });
+  return res.status(401).send('Invalid credentials');
 });
 
 module.exports = router;

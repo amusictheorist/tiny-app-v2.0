@@ -9,7 +9,13 @@ router.get('/', (req, res) => {
 
 // GET /urls
 router.get('/urls', (req, res) => {
-  const user = users['xarknlmie3i'];
+  const userId = req.session.userId;
+  const user = users[userId];
+
+  if (!user) {
+    return res.redirect('/login');
+  }
+
   const templateVars = {
     urls: urlDatabase,
     user
@@ -37,8 +43,12 @@ router.get('/urls/:id', (req, res) => {
 
 // POST /logout
 router.post('/logout', (req, res) => {
-  const user = null;
-  res.redirect('/login');
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send('Error logging out');
+    }
+    res.redirect('/login');
+  })
 });
 
 module.exports = router;
