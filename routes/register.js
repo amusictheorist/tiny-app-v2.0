@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { generateRandomString, users } = require('../helpers');
+const { generateRandomString } = require('../helpers');
+const { User } = require('../models/User');
 
 // GET /register
 router.get('/', (req, res) => {
@@ -9,21 +10,22 @@ router.get('/', (req, res) => {
 });
 
 // POST /register
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const { email, password } = req.body;
-  const userId = generateRandomString();
 
-  for (let user in users) {
-    if (users[user].email === email) {
-      return res.status(400).send('Email already registered!');
-    }
+  const existingUser = await User.findOne({ where: { email } });
+  if (existingUser) {
+    return res.status(400).send('User already exists!');
   }
 
-  users[userId] = { id: userId, email, password };
-
-  req.session.userId = userId;
-
-  res.redirect('/urls');
+  try {
+    const user = await User.create({ email, password });
+    req.session.userId = user.id;
+    res.redirect('/urls');
+  } catch (error) {
+    console.error('Error creating user: ', error);
+    res.status(500).send('Internal server error')
+  }
 });
 
 module.exports = router;
