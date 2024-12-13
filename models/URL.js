@@ -2,10 +2,13 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
 
 const URL = sequelize.define('URL', {
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true
+  },
   shortURL: {
     type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
+    allowNull: false
   },
   longURL: {
     type: DataTypes.STRING,
