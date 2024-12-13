@@ -8,16 +8,21 @@ router.get('/', (req, res) => {
 });
 
 // GET /urls
-router.get('/urls', (req, res) => {
+router.get('/urls', async (req, res) => {
   const userId = req.session.userId;
 
   if (!userId) {
     return res.status(401).redirect('/login');
   }
 
-  const user = users[userId];
-  const templateVars = { urls: urlDatabase, user };
-  res.render('urls_index', templateVars);
+  try {
+    const urls = await URL.findAll({ where: { userId } });
+    const templateVars = { user: users[userId], urls };
+    res.render('urls_index', templateVars);
+  } catch (error) {
+    console.error('Error fethcing URLs: ', error);
+    res.status(500).send('Internal server error');
+  }
 });
 
 // GET /urls/new
@@ -71,21 +76,22 @@ router.get('/u/:id', (req, res) => {
 });
 
 // POST /urls
-router.post('/urls', (req, res) => {
+router.post('/urls', async (req, res) => {
   const userId = req.session.userId;
-  
+  const { longURL } = req.body;
+
   if (!userId) {
     return res.status(401).redirect('/login');
   }
 
-  const user = users[userId];
-  const id = generateRandomString();
-  const longURL = req.body.longURL;
-
-  urlDatabase[id] = { longURL, userId };
-  const templateVars = { user, id, longURL };
-
-  res.redirect(`/urls/${id}`);
+  try {
+    const shortURL = generateRandomString();
+    await URL.createObjectURL({ shortURL, longURL, userId });
+    res.redirect(`'/urls/${shortURL}`);
+  } catch (error) {
+    console.error('Error creating URL: ', error);
+    res.status(500).send('Internal server error');
+  }
 });
 
 // POST /logout
