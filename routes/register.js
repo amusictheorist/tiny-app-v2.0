@@ -13,14 +13,17 @@ router.post('/', (req, res) => {
   const { email, password } = req.body;
   const userId = generateRandomString();
 
-  if (!email || !password) {
-    return res.status(400).send('You must provide and email and a password!');
+  for (let user in users) {
+    if (users[user].email === email) {
+      return res.status(400).send('Email already registered!');
+    }
   }
 
   users[userId] = { id: userId, email, password };
 
-  res.redirect('/urls');
+  req.session.userId = userId;
 
+  res.redirect('/urls');
 });
 
 module.exports = router;

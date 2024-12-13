@@ -12,9 +12,14 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   const { email, password } = req.body;
   const user = findUserByEmail(email, users);
+
+  if (!email || !password) {
+    return res.status(401).send('You must provide an email and a password!');
+  }
   
   if (user && user.password === password) {
     req.session.userId = user.id;
+    console.log('Session userId: ', req.session.userId);
     return res.redirect('/urls');
   }
 
