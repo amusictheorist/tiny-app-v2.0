@@ -5,8 +5,4 @@ const generateRandomString = function() {
   return result;
 };
 
-const findUserByEmail = function(email, users) {
-  return Object.values(users).find(user => user.email === email) || null;
-};
-
-module.exports = { generateRandomString, findUserByEmail };
+module.exports = { generateRandomString };

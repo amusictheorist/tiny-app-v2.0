@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { findUserByEmail, users } = require('../helpers');
+const { User } = require('../models/User');
 
 // GET /login
 router.get('/', (req, res) => {
@@ -9,21 +9,26 @@ router.get('/', (req, res) => {
 });
 
 // POST /login
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const { email, password } = req.body;
-  const user = findUserByEmail(email, users);
 
-  if (!email || !password) {
-    return res.status(401).send('You must provide an email and a password!');
-  }
-  
-  if (user && user.password === password) {
+  try {
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+      return res.status(403).send('Invalid email or password');
+    }
+    
+    if (user.password !== password) {
+      return res.status(403).send('Invalid email or password');
+    }
+
     req.session.userId = user.id;
-    console.log('Session userId: ', req.session.userId);
-    return res.redirect('/urls');
+    res.redirect('/urls');
+  } catch (error) {
+    console.error('Error during login: ', error.message);
+    res.status(500).send('Internal server error');
   }
-
-  return res.status(401).send('Invalid credentials');
 });
 
 module.exports = router;
