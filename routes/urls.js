@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { urlDatabase, users } = require('../helpers');
 
 // Route for home
 router.get('/', (req, res) => {
@@ -8,7 +9,10 @@ router.get('/', (req, res) => {
 
 // GET /urls
 router.get('/urls', (req, res) => {
-  const templateVars = { urls: urlDatabase };
+  const templateVars = {
+    urls: urlDatabase,
+    users
+  };
   res.render('urls_index', templateVars);
 });
 

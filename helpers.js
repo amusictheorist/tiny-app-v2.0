@@ -1,8 +1,12 @@
-// helper functions to run TinyApp and express_server.js
+// Helper functions and mock data to run TinyApp and express_server.js
 
-function generateRandomString() {
+const generateRandomString = function() {
   let result = Math.random().toString(36).slice(2);
   return result;
+};
+
+const findUserByEmail = function(email, users) {
+  return Object.values(users).find(user => user.email === email) || null;
 };
 
 // Mock Database
@@ -30,4 +34,4 @@ const users = {
   }
 };
 
-module.exports = { generateRandomString, urlDatabase, users };
+module.exports = { generateRandomString, findUserByEmail, urlDatabase, users };

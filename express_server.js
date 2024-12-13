@@ -12,7 +12,9 @@ app.use(morgan('dev'));
 
 // Routes
 const urlsRouter = require('./routes/urls');
+const loginRouter = require('./routes/login')
 app.use('/', urlsRouter);
+app.use('/login', loginRouter);
 
 // Starting the server
 app.listen(PORT, () => {
