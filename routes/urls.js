@@ -17,4 +17,12 @@ router.get('/urls', (req, res) => {
   res.render('urls_index', templateVars);
 });
 
+// POST /logout
+router.post('/logout', (req, res) => {
+  const user = null;
+  console.log('logout route hit');
+  console.log('user: ', user);
+  res.redirect('/login');
+});
+
 module.exports = router;

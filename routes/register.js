@@ -4,7 +4,8 @@ const { generateRandomString, users } = require('../helpers');
 
 // GET /register
 router.get('/', (req, res) => {
-  res.render('register');
+  const templateVars = { user: null };
+  res.render('register', templateVars);
 });
 
 // POST /register

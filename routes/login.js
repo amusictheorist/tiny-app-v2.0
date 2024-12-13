@@ -4,7 +4,8 @@ const { findUserByEmail, users } = require('../helpers');
 
 // GET /login
 router.get('/', (req, res) => {
-  res.render('login');
+  const templateVars = { user: null }
+  res.render('login', templateVars);
 });
 
 // POST /login
